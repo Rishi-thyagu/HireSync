@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HireSync — AI Career Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <a href="#" class="logo" onclick="showPage('home')">
+      <span class="logo-pulse"></span>
+      HireSync
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link" onclick="showPage('jd-matcher')">JD Matcher</a></li>
+      <li><a href="#" class="nav-link" onclick="showPage('resume-rater')">Resume Rater</a></li>
+      <li><a href="#" class="nav-link" onclick="showPage('ats-checker')">ATS Checker</a></li>
+      <li><a href="#" class="nav-link" onclick="showPage('cover-letter')">Cover Letter</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#" onclick="showPage('jd-matcher');toggleMenu()">JD Matcher</a>
+    <a href="#" onclick="showPage('resume-rater');toggleMenu()">Resume Rater</a>
+    <a href="#" onclick="showPage('ats-checker');toggleMenu()">ATS Checker</a>
+    <a href="#" onclick="showPage('cover-letter');toggleMenu()">Cover Letter</a>
+  </div>
+
+  <!-- ===================== HOME PAGE ===================== -->
+  <div id="page-home" class="page active">
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <span class="badge">✦ AI-Powered Career Tools</span>
+<div class="built-by">Built by <strong>Rishi</strong> · Powered by Groq</div>
+        <h1>Land the job<br><span class="grad">you actually want</span></h1>
+        <p class="hero-sub">Four free AI tools that match your resume to jobs, rate your profile, check ATS compatibility, and write your cover letter — in seconds.</p>
+        <div class="tool-cards">
+          <div class="tool-card" onclick="showPage('jd-matcher')">
+            <div class="tool-icon">🎯</div>
+            <div>
+              <div class="tool-name">JD Matcher</div>
+              <div class="tool-desc">See how well your resume fits any job description</div>
+            </div>
+            <span class="tool-arrow">→</span>
+          </div>
+          <div class="tool-card" onclick="showPage('resume-rater')">
+            <div class="tool-icon">⭐</div>
+            <div>
+              <div class="tool-name">Resume Rater</div>
+              <div class="tool-desc">Get a score and improvement tips for your resume</div>
+            </div>
+            <span class="tool-arrow">→</span>
+          </div>
+          <div class="tool-card" onclick="showPage('ats-checker')">
+            <div class="tool-icon">🔍</div>
+            <div>
+              <div class="tool-name">ATS Checker</div>
+              <div class="tool-desc">Check if your resume passes applicant tracking systems</div>
+            </div>
+            <span class="tool-arrow">→</span>
+          </div>
+          <div class="tool-card" onclick="showPage('cover-letter')">
+            <div class="tool-icon">✉️</div>
+            <div>
+              <div class="tool-name">Cover Letter</div>
+              <div class="tool-desc">Generate a tailored cover letter in one click</div>
+            </div>
+            <span class="tool-arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== JD MATCHER ===================== -->
+  <div id="page-jd-matcher" class="page">
+    <div class="tool-page">
+      <div class="tool-header">
+        <button class="back-btn" onclick="showPage('home')">← Back</button>
+        <div class="tool-badge">🎯 JD Matcher</div>
+        <h2>How well do you match?</h2>
+        <p>Paste your resume and the job description — get a match score with a breakdown of what's missing.</p>
+      </div>
+      <div class="tool-body two-col">
+        <div class="input-group">
+          <label>Your Resume</label>
+          <textarea id="jd-resume" placeholder="Paste your full resume here..."></textarea>
+        </div>
+        <div class="input-group">
+          <label>Job Description</label>
+          <textarea id="jd-jd" placeholder="Paste the job description here..."></textarea>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="run-btn" onclick="runJDMatcher()">
+          <span class="btn-icon">🎯</span> Analyze Match
+        </button>
+      </div>
+      <div id="jd-result" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- ===================== RESUME RATER ===================== -->
+  <div id="page-resume-rater" class="page">
+    <div class="tool-page">
+      <div class="tool-header">
+        <button class="back-btn" onclick="showPage('home')">← Back</button>
+        <div class="tool-badge">⭐ Resume Rater</div>
+        <h2>Rate my resume</h2>
+        <p>Get an honest score out of 100, broken down by impact, clarity, structure, and keywords.</p>
+      </div>
+      <div class="tool-body one-col">
+        <div class="input-group">
+          <label>Your Resume</label>
+          <div class="pdf-upload-row">
+            <label class="pdf-btn" for="rr-pdf">📄 Upload PDF</label>
+            <input type="file" id="rr-pdf" accept=".pdf" style="display:none" onchange="extractPDF(this, 'rr-resume')" />
+            <span class="pdf-hint" id="rr-pdf-hint">or paste below</span>
+          </div>
+          <textarea id="rr-resume" placeholder="Paste your full resume here, or upload a PDF above..."></textarea>
+        </div>
+        <div class="input-group">
+          <label>Target Role <span class="optional">(optional)</span></label>
+          <input type="text" id="rr-role" placeholder="e.g. Frontend Developer, Data Analyst..." class="text-input" />
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="run-btn" onclick="runResumeRater()">
+          <span class="btn-icon">⭐</span> Rate My Resume
+        </button>
+      </div>
+      <div id="rr-result" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- ===================== ATS CHECKER ===================== -->
+  <div id="page-ats-checker" class="page">
+    <div class="tool-page">
+      <div class="tool-header">
+        <button class="back-btn" onclick="showPage('home')">← Back</button>
+        <div class="tool-badge">🔍 ATS Checker</div>
+        <h2>Will you pass ATS?</h2>
+        <p>Most resumes get rejected before a human sees them. Check if yours survives the filter.</p>
+      </div>
+      <div class="tool-body two-col">
+        <div class="input-group">
+          <label>Your Resume</label>
+          <div class="pdf-upload-row">
+            <label class="pdf-btn" for="ats-pdf">📄 Upload PDF</label>
+            <input type="file" id="ats-pdf" accept=".pdf" style="display:none" onchange="extractPDF(this, 'ats-resume')" />
+            <span class="pdf-hint" id="ats-pdf-hint">or paste below</span>
+          </div>
+          <textarea id="ats-resume" placeholder="Paste your full resume here, or upload a PDF above..."></textarea>
+        </div>
+        <div class="input-group">
+          <label>Job Description <span class="optional">(optional but recommended)</span></label>
+          <textarea id="ats-jd" placeholder="Paste the job description to check keyword alignment..."></textarea>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="run-btn" onclick="runATSChecker()">
+          <span class="btn-icon">🔍</span> Check ATS
+        </button>
+      </div>
+      <div id="ats-result" class="result-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- ===================== COVER LETTER ===================== -->
+  <div id="page-cover-letter" class="page">
+    <div class="tool-page">
+      <div class="tool-header">
+        <button class="back-btn" onclick="showPage('home')">← Back</button>
+        <div class="tool-badge">✉️ Cover Letter</div>
+        <h2>Write my cover letter</h2>
+        <p>Fill in the details — get a professional, tailored cover letter ready to send.</p>
+      </div>
+      <div class="tool-body two-col">
+        <div class="input-group">
+          <label>Your Resume / Background</label>
+          <textarea id="cl-resume" placeholder="Paste your resume or briefly describe your experience..."></textarea>
+        </div>
+        <div class="input-group">
+          <label>Job Description</label>
+          <textarea id="cl-jd" placeholder="Paste the job description here..."></textarea>
+        </div>
+      </div>
+      <div class="tool-body one-col" style="margin-top:0;">
+        <div class="inline-inputs">
+          <div class="input-group small">
+            <label>Your Name</label>
+            <input type="text" id="cl-name" placeholder="Rishi T" class="text-input" />
+          </div>
+          <div class="input-group small">
+            <label>Company Name</label>
+            <input type="text" id="cl-company" placeholder="Google" class="text-input" />
+          </div>
+          <div class="input-group small">
+            <label>Tone</label>
+            <select id="cl-tone" class="text-input">
+              <option value="professional">Professional</option>
+              <option value="enthusiastic">Enthusiastic</option>
+              <option value="concise">Concise</option>
+              <option value="creative">Creative</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="run-btn" onclick="runCoverLetter()">
+          <span class="btn-icon">✉️</span> Generate Cover Letter
+        </button>
+      </div>
+      <div id="cl-result" class="result-box hidden">
+        <div class="result-actions">
+          <button class="copy-btn" onclick="copyResult('cl-result-text')">📋 Copy</button>
+        </div>
+        <div id="cl-result-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADING OVERLAY -->
+  <div id="loader" class="loader hidden">
+    <div class="loader-inner">
+      <div class="spinner"></div>
+      <p id="loader-text">Analyzing...</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="static/js/script.js"></script>
+</body>
+</html>
